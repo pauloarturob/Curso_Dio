@@ -1,11 +1,21 @@
-import scipy.stats as stats
+class Level:
+    def __init__(self):
+        self.eventos_temporais = []
 
-media = 12000
-desvio_padrao = 800
+    def adicionar_evento_temporal(self, id_evento, intervalo, acao):
+        # Adiciona um evento temporal à lista de eventos
+        evento = {'id': id_evento, 'intervalo': intervalo, 'acao': acao, 'tempo_anterior': 0}
+        self.eventos_temporais.append(evento)
 
-probabilidade_12000 = stats.norm.cdf(12000, media, desvio_padrao)
-probabilidade_13000 = stats.norm.cdf(13000, media, desvio_padrao)
+    def verificar_eventos_temporais(self, tempo_atual):
+        for evento in self.eventos_temporais:
+            # Verifica se o intervalo decorreu desde o último evento
+            if tempo_atual - evento['tempo_anterior'] >= evento['intervalo']:
+                # Executa a ação associada ao evento
+                evento['acao']()
+                # Atualiza o tempo do último evento
+                evento['tempo_anterior'] = tempo_atual
 
-probabilidade_entre_12000_e_13000 = probabilidade_13000 - probabilidade_12000
-
-probabilidade_entre_12000_e_13000
+    def acao_instanciar_inimigo(self):
+        # Lógica para instanciar um inimigo
+        pass
